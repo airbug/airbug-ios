@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ABLoginViewController : UIViewController
+@interface ABLoginViewController : UIViewController <UIWebViewDelegate>
 
 @end
