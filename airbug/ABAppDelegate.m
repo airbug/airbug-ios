@@ -7,11 +7,14 @@
 //
 
 #import "ABAppDelegate.h"
+#import <Crashlytics/Crashlytics.h>
 
 @implementation ABAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Crashlytics startWithAPIKey:@"cd2558e2905809b2dbd3b71c6161d2733f40d3d3"];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
