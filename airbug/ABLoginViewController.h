@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ABLoginViewControllerDelegate <NSObject>
+/**
+ Required to receive authentication token on successful login.
+ */
+- (void)didReceiveToken:(NSString *)token;
+@end
+
 @interface ABLoginViewController : UIViewController <UIWebViewDelegate>
+
+/**
+ The object that receives the authentication token on successful login.
+ */
+@property (weak, nonatomic) id <ABLoginViewControllerDelegate> delegate;
 
 @end

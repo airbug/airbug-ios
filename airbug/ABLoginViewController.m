@@ -11,32 +11,50 @@
 
 @interface ABLoginViewController ()
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) NSString *domain;
 @end
 
 @implementation ABLoginViewController
 
 NSString * const LoginURL = @"http://airbug.com/app#login";
+NSString * const CookieAuthenticationTokenKey = @"oauth_token";
 
 #pragma mark - Lifecycle
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)viewWillAppear:(BOOL)animated
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-    }
-    return self;
+    [super viewWillAppear:animated];
+    [self loadLoginURL];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+#pragma mark - Private
 
+- (void)loadLoginURL
+{
     NSURL *loginURL = [NSURL URLWithString:LoginURL];
-    NSURLRequest *request = [NSURLRequest requestWithURL:loginURL];
+    self.domain = [loginURL host];
     
+    NSURLRequest *request = [NSURLRequest requestWithURL:loginURL];
     self.webView.delegate = self;
     [self.webView loadRequest:request];
 }
+
+- (NSString *)getTokenFromCookie
+{
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [cookieJar cookies]) {
+        if ([[cookie domain] isEqualToString:self.domain]) {
+            if ([[cookie name] isEqualToString:CookieAuthenticationTokenKey]) {
+                return [cookie value];
+            }
+        }
+    }
+    return nil;
+}
+
+#pragma mark - Protocol conformance
+#pragma mark UIWebViewDelegate
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     [[AFNetworkActivityIndicatorManager sharedManager] incrementActivityCount];
@@ -44,6 +62,10 @@ NSString * const LoginURL = @"http://airbug.com/app#login";
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
+    NSString *token = [self getTokenFromCookie];
+    if (token) {
+        [self.delegate didReceiveToken:token];
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
