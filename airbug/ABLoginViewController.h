@@ -12,7 +12,7 @@
 /**
  Required to receive authentication token on successful login.
  */
-- (void)didReceiveToken:(NSString *)token;
+- (void)loginViewController:(ABLoginViewController *)viewController didReceiveToken:(NSString *)token;
 @end
 
 @interface ABLoginViewController : UIViewController <UIWebViewDelegate>

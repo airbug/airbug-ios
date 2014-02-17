@@ -64,7 +64,7 @@ NSString * const CookieAuthenticationTokenKey = @"oauth_token";
     [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     NSString *token = [self getTokenFromCookie];
     if (token) {
-        [self.delegate didReceiveToken:token];
+        [self.delegate loginViewController:self didReceiveToken:token];
     }
 }
 
