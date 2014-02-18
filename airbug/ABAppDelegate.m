@@ -19,6 +19,7 @@
 {
     [Crashlytics startWithAPIKey:@"cd2558e2905809b2dbd3b71c6161d2733f40d3d3"];
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+    self.keychainStore = [[ABKeychainStore alloc] init];
     
     ABLoginViewController *initialViewController = [[ABLoginViewController alloc] init];
     initialViewController.delegate = self;
@@ -31,9 +32,16 @@
     return YES;
 }
 
-- (void)storeAuthenticationToken:(NSString *)token
-{
-    [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"AuthenticationToken"];
+NSString * const AuthenticationTokenKey = @"AuthenticationTokenKey";
+
+- (void)storeAuthenticationToken:(NSString *)token {
+    if (token) {
+        [self.keychainStore setString:token forKey:AuthenticationTokenKey];
+    }
+}
+
+- (NSString *)getAuthenticationToken {
+    return [self.keychainStore stringForKey:AuthenticationTokenKey];
 }
 
 #pragma mark ABLoginViewControllerDelegate

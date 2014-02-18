@@ -17,14 +17,20 @@ PODS:
   - AFNetworking/Serialization (2.1.0)
   - AFNetworking/UIKit (2.1.0):
     - AFNetworking/NSURLConnection
+  - OCMock (2.2.3)
   - SocketRocket (0.3.1-beta2)
+  - UICKeyChainStore (1.0.4)
 
 DEPENDENCIES:
   - AFNetworking
+  - OCMock
   - SocketRocket
+  - UICKeyChainStore
 
 SPEC CHECKSUMS:
   AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
+  OCMock: 74e4ddbcef134170dcc844f91c691f13868075d7
   SocketRocket: 50ed18fa823e61ea4825127fa24b63fd4de363de
+  UICKeyChainStore: b42c6252b8bfd7fbf6326668467572b6b231e11a
 
 COCOAPODS: 0.29.0

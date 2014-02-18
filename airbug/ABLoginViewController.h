@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class ABLoginViewController;
 @protocol ABLoginViewControllerDelegate <NSObject>
 /**
  Required to receive authentication token on successful login.
